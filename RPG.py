@@ -1,5 +1,6 @@
 import random
 import time
+import sys  # Import sys to exit the program
 
 # Player and Monster class
 class Character:
@@ -34,7 +35,7 @@ def start_game():
     player = Character(player_name, 100, 20, 5)
     monster = Character("Goblin", 80, 15, 3)
 
-    while player.is_alive() and monster.is_alive():
+    while True:
         print("\nPlayer Health:", player.health)
         print("Monster Health:", monster.health)
         print("\nWhat do you want to do?")
@@ -49,17 +50,20 @@ def start_game():
         else:
             print("Invalid choice! You do nothing.")
         
-        if monster.is_alive():
-            print("\nThe monster's turn!")
-            monster.attack_enemy(player)
+        if not monster.is_alive():
+            print(f"\nCongratulations, {player.name}! You defeated the monster!")
+            sys.exit()  # Exit the program
+        
+        print("\nThe monster's turn!")
+        monster.attack_enemy(player)
+
+        if not player.is_alive():
+            print(f"\nSorry, {player.name}, you were defeated by the monster.")
+            sys.exit()  # Exit the program
         
         time.sleep(1)
-
-    if player.is_alive():
-        print(f"\nCongratulations, {player.name}! You defeated the monster!")
-    else:
-        print(f"\nSorry, {player.name}, you were defeated by the monster.")
 
 # Start the game
 if __name__ == "__main__":
     start_game()
+
